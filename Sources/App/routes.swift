@@ -11,6 +11,12 @@ func routes(_ app: Application) throws {
         }
         return "Hello, \(name)!"
     }
+    app.get("hello", "hello", ":name") { req -> String in
+        guard let name = req.parameters.get("name") else {
+          throw Abort(.internalServerError)
+        }
+        return "Hello, \(name)!"
+    }
     app.post("info") { req -> InfoResponse in
       let data = try req.content.decode(InfoData.self)
       return InfoResponse(request: data)
